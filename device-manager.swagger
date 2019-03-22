@@ -1,0 +1,131 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/giovannicuriel/device-manager/1.0.0
+info:
+  description: >-
+    This document describes the APIs using DeviceManager as a standalone process. If used with
+    other dojot's components, the endpoints might be changed a bit. Check [dojot's
+    documentation](http://dojotdocs.readthedocs.io/) to check all of them.
+  version: "1.0.0"
+  title: DeviceManager API
+  contact:
+    email: giovannicuriel@gmail.com
+  license:
+    name: GPL-3.0
+    url: 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+paths:
+  /templates:
+    get:
+      summary: Retrieve list of templates
+      operationId: getTemplates
+      description: Retrieve a list of currently configured templates.
+      tags:
+        - templates
+      responses:
+        '200':
+          description: Successfully retrieved list of templates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Template'
+  /devices:
+    get:
+      summary: Retrieve list of devices
+      operationId: getDevices
+      description: Retrieve list of devices with all details
+      tags:
+        - devices
+      responses:
+        '200':
+          description: Successfully retrieved list of devices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Device"
+components:
+  schemas:
+    Attribute:
+      type: object
+      properties:
+        label:
+          type: string
+          example: "temperature"
+        type:
+          type: string
+          example: "static"
+        value_type:
+          type: string
+          example: "float"
+        id:
+          type: integer
+          format: int32
+        created:
+          type: string
+          format: date-time
+        meta:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: "#/components/schemas/MetaAttribute"
+    DeviceAttribute:
+      allOf:
+        - $ref: "#/components/schemas/Attribute"
+        - type: object
+          properties:
+            overriden:
+              type: boolean
+              example: false
+
+    MetaAttribute:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "static"
+        value_type:
+          type: string
+          example: "string"
+        static_value:
+          example: "ºC"
+        id:
+          type: integer
+          format: int32
+        created:
+          type: string
+          format: date-time
+    Template:
+      type: object
+      properties:
+        label:
+          type: string
+          example: "ThermometerTemplate"
+        id:
+          type: integer
+          format: int32
+        attrs:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Attribute'
+    Device:
+      type: object
+      properties:
+        label:
+          type: string
+          example: "Thermometer XYZ"
+        id:
+          type: integer
+          format: int32
+        attrs:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/DeviceAttribute'
