@@ -67,12 +67,6 @@ components:
         created:
           type: string
           format: date-time
-        meta:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              $ref: "#/components/schemas/MetaAttribute"
     DeviceAttribute:
       allOf:
         - $ref: "#/components/schemas/Attribute"
@@ -81,6 +75,14 @@ components:
             overriden:
               type: boolean
               example: false
+            meta:
+              allOf:
+                - $ref: "#/components/schemas/Attribute"
+                - type: object
+                  properties:
+                    overriden:
+                      type: boolean
+                      example: false
 
     MetaAttribute:
       type: object
