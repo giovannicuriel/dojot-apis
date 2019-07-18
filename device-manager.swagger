@@ -47,7 +47,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Device"
-  /devices/{deviceId}:
+  /device/{deviceId}:
     get:
       summary: Retrieve list of devices
       description: Retrieve list of devices with all details
